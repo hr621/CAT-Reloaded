@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html dir="rtl" lang="ar">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Orientation Day - CAT Reloaded</title>
+    <style>
+        :root { --primary: #800000; --text: #333; --bg: #f4f4f4; --accent: #d35400; }
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-color: var(--bg); margin: 0; padding-bottom: 80px; }
+        
+        /* الهيدر */
+        .hero-image { width: 100%; max-height: 350px; object-fit: cover; display: block; border-bottom: 5px solid var(--primary); }
+        .page-title { text-align: center; color: var(--primary); font-size: 2.2rem; margin: 20px 0; text-transform: uppercase; letter-spacing: 1px; font-weight: 900; }
+        
+        .container { max-width: 800px; margin: 0 auto; padding: 15px; }
+
+        /* الكروت */
+        .card { background: white; padding: 20px; border-radius: 12px; box-shadow: 0 4px 10px rgba(0,0,0,0.08); margin-bottom: 20px; border-top: 4px solid var(--primary); }
+        h3 { color: var(--primary); margin-top: 0; border-bottom: 1px solid #eee; padding-bottom: 10px; font-size: 1.3rem; }
+
+        /* المدخلات */
+        .input-group { margin-bottom: 15px; }
+        .input-group label { display: block; margin-bottom: 5px; font-weight: bold; color: #555; }
+        .input-group input { width: 100%; padding: 12px; border: 1px solid #ccc; border-radius: 8px; box-sizing: border-box; font-size: 1rem; }
+        
+        /* خيار الأكل */
+        .choice-container { display: flex; gap: 15px; justify-content: center; margin: 15px 0; }
+        .choice-label { cursor: pointer; display: flex; align-items: center; gap: 8px; padding: 10px 20px; background: #eee; border-radius: 25px; transition: 0.3s; font-weight: bold; }
+        .choice-label:hover { background: #e0e0e0; }
+        input[type="radio"]:checked + span { color: var(--primary); }
+
+        /* المنيو */
+        .category-title { background: #2c3e50; color: white; padding: 10px 15px; border-radius: 8px; margin-top: 25px; font-weight: bold; font-size: 1.1rem; }
+        .menu-item { display: flex; justify-content: space-between; align-items: center; padding: 12px 0; border-bottom: 1px solid #eee; }
+        .item-details { flex: 1; padding-left: 10px; }
+        .item-details h4 { margin: 0; color: #333; font-size: 1rem; }
+        .item-details p { margin: 4px 0 0; font-size: 0.85rem; color: #777; }
+        .item-price { color: var(--accent); font-weight: bold; display: block; margin-top: 2px; }
+        
+        .qty-control { display: flex; align-items: center; gap: 8px; background: #f9f9f9; padding: 4px; border-radius: 20px; }
+        .qty-btn { width: 28px; height: 28px; border-radius: 50%; border: none; background: var(--primary); color: white; cursor: pointer; font-size: 1.2rem; display: flex; align-items: center; justify-content: center; padding-bottom: 3px; }
+        
+        /* الدفع */
+        .payment-box { text-align: center; border: 2px dashed var(--primary); padding: 20px; background: #fffdfd; border-radius: 10px; }
+        .vf-number { font-size: 1.6rem; font-weight: bold; color: #d35400; display: block; margin: 10px 0; letter-spacing: 1px; }
+
+        .hidden { display: none; }
+        .submit-btn { width: 100%; padding: 16px; background: var(--primary); color: white; border: none; font-size: 1.2rem; font-weight: bold; border-radius: 8px; cursor: pointer; margin-top: 10px; }
+        .submit-btn:hover { background: #600000; }
+        
+        /* الشريط السفلي */
+        .sticky-footer { position: fixed; bottom: 0; left: 0; right: 0; background: white; padding: 10px 20px; box-shadow: 0 -2px 10px rgba(0,0,0,0.1); display: flex; justify-content: space-between; align-items: center; z-index: 1000; }
+        .sticky-total { font-size: 1.2rem; font-weight: bold; color: var(--primary); }
+    </style>
+</head>
+<body>
+
+    <img src="accepted.final.jpg" alt="CAT Reloaded" class="hero-image">
+    <h1 class="page-title">Orientation Day</h1>
+
+    <div class="container">
+        
+        <div class="card">
+            <h3>📝 البيانات الشخصية</h3>
+            <div class="input-group"><label>الاسم بالكامل:</label><input type="text" id="name"></div>
+            <div class="input-group"><label>رقم الموبايل:</label><input type="tel" id="phone"></div>
+            <div class="input-group"><label>الإيميل:</label><input type="email" id="email"></div>
+            <div class="input-group"><label>CAT-ID:</label><input type="text" id="catId" placeholder="ex: CAT-25"></div>
+        </div>
+
+        <div class="card" style="text-align: center;">
+            <h3>🍽️ هل ستطلب غداء؟</h3>
+            <div class="choice-container">
+                <label class="choice-label"><input type="radio" name="orderChoice" value="yes" onchange="toggleMenu()"> <span>نعم، سأطلب</span></label>
+                <label class="choice-label"><input type="radio" name="orderChoice" value="no" checked onchange="toggleMenu()"> <span>لا، حضور فقط</span></label>
+            </div>
+        </div>
+
+        <div id="foodSection" class="hidden">
+            <div class="card">
+                <h3>📜 المنيو (روح دمشق)</h3>
+                <div id="menuContainer"></div>
+            </div>
+
+            <div class="card">
+                <h3>💳 الدفع وتأكيد الطلب</h3>
+                <div class="payment-box">
+                    <p>الإجمالي المطلوب: <span id="displayTotal" style="font-weight:bold; font-size:1.4rem">0</span> ج.م</p>
+                    <hr>
+                    <p>حول المبلغ فودافون كاش على:</p>
+                    <span class="vf-number">01028786829</span>
+                    <label style="display:block; margin-top:15px; cursor:pointer; background:#eee; padding:12px; border-radius:8px;">
+                        📸 اضغط لرفع سكرين شوت التحويل
+                        <input type="file" id="receiptFile" accept="image/*" style="display:none" onchange="previewFile()">
+                    </label>
+                    <div id="fileName" style="margin-top:8px; color:green; font-weight:bold; font-size:0.9rem;"></div>
+                </div>
+            </div>
+        </div>
+
+        <button class="submit-btn" onclick="submitForm()" id="mainBtn">تسجيل الحضور ✅</button>
+    </div>
+
+<script>
+    // ============================================================
+    // ⚠️ ضع رابط الجوجل سكربت الخاص بك هنا
+    // ============================================================
+    const SCRIPT_URL = "ضع_رابط_الجوجل_سكربت_هنا";
+
+    // ================== قاعدة بيانات المنيو الكاملة ==================
+    const menuDB = [
+        { cat: "📦 بوكسات اللمة والصحاب", items: [
+            {n:"بوكس اللمة (فراخ)", p:420, d:"5 سندوتشات لارج مقطعين"},
+            {n:"بوكس اللمة (لحمة)", p:610, d:"5 سندوتشات لارج مقطعين"},
+            {n:"بوكس اللمة (ميكس)", p:500, d:"5 سندوتشات لارج مقطعين"},
+            {n:"بوكس الصحاب (فراخ)", p:250, d:"4 سندوتشات كايزر"},
+            {n:"بوكس الصحاب (لحمة)", p:350, d:"4 سندوتشات كايزر"},
+            {n:"بوكس الصحاب (ميكس)", p:290, d:"4 سندوتشات كايزر"},
+            {n:"بوكس روح دمشق (فراخ)", p:230, d:"2 XL مقطعين + 3 كريسبي"},
+            {n:"بوكس روح دمشق (لحمة)", p:350, d:"2 XL مقطعين + 3 كريسبي"},
+            {n:"بوكس الملوك (فراخ)", p:400, d:"5 كريسبي + 5 شاورما"},
+            {n:"بوكس الملوك (لحمة)", p:550, d:"5 كريسبي + 5 شاورما"},
+            {n:"بوكس الملوك (ميكس)", p:450, d:"5 كريسبي + 5 شاورما"},
+            {n:"بوكس الحكاية", p:400, d:"10 سوري فراخ 10سم"}
+        ]},
+        { cat: "🆕 البوكسات الجديدة", items: [
+            {n:"بوكس دمياط الجديدة", p:235, d:"2 بروستد + 4 كريسبي"},
+            {n:"بوكس المنصورة", p:385, d:"ماريا + 2 س فراخ + س لحمة"},
+            {n:"بوكس العبور", p:315, d:"نص شواية + 4 كريسبي"},
+            {n:"بوكس طنطا (فراخ)", p:445, d:"8 كايزر فراخ"},
+            {n:"بوكس طنطا (لحمة)", p:700, d:"8 كايزر لحمة"},
+            {n:"بوكس طنطا (ميكس)", p:550, d:"4 فراخ + 4 لحمة"}
+        ]},
+        { cat: "🥘 بوكسات مصراوي", items: [
+            {n:"مصراوي شاورما فراخ (صغير)", p:135}, {n:"مصراوي شاورما فراخ (كبير)", p:245},
+            {n:"مصراوي شاورما لحمة (صغير)", p:215}, {n:"مصراوي شاورما لحمة (كبير)", p:340},
+            {n:"مصراوي كريسبي (صغير)", p:160}, {n:"مصراوي كريسبي (كبير)", p:295},
+            {n:"مصراوي شيش (صغير)", p:135}, {n:"مصراوي شيش (كبير)", p:245}
+        ]},
+        { cat: "🌯 سندوتشات ووجبات الشاورما", items: [
+            {n:"سندوتش فراخ (لارج)", p:75}, {n:"سندوتش فراخ (XL)", p:85},
+            {n:"سندوتش لحمة (لارج)", p:105}, {n:"سندوتش لحمة (XL)", p:120},
+            {n:"سندوتش فراخ كايزر", p:70}, {n:"سندوتش لحمة كايزر", p:90},
+            {n:"سندوتش فراخ فرنساوي", p:95}, {n:"سندوتش لحمة فرنساوي", p:125},
+            {n:"وجبة عربي (فراخ)", p:120, d:"سندوتش مقطع + بطاطس"},
+            {n:"وجبة عربي (لحمة)", p:145, d:"سندوتش مقطع + بطاطس"},
+            {n:"وجبة عربي دبل (فراخ)", p:190}, {n:"وجبة عربي دبل (لحمة)", p:260},
+            {n:"وجبة عربي دبل (ميكس)", p:220}
+        ]},
+        { cat: "🥖 الشومة (نص متر)", items: [
+            {n:"شومة سوري فراخ", p:140}, {n:"شومة فرنساوي فراخ", p:150},
+            {n:"شومة سوري لحمة", p:205}, {n:"شومة فرنساوي لحمة", p:210},
+            {n:"شومة سوري كريسبي", p:145}, {n:"شومة فرنساوي كريسبي", p:150},
+            {n:"شومة سوري زنجر", p:145}, {n:"شومة فرنساوي زنجر", p:150},
+            {n:"شومة سوري شيش", p:145}, {n:"شومة فرنساوي شيش", p:150},
+            {n:"شومة سوبريم رانش", p:170}
+        ]},
+        { cat: "🌮 الماريا والدلوعة", items: [
+            {n:"ماريا شاورما فراخ", p:120}, {n:"ماريا فراخ موتزريلا", p:135},
+            {n:"ماريا شاورما لحمة", p:155}, {n:"ماريا لحمة موتزريلا", p:170},
+            {n:"ماريا تشيزي كريسبي", p:130}, {n:"ماريا ميكس", p:145},
+            {n:"الدلوعة فراخ", p:135}, {n:"الدلوعة لحمة", p:160}, {n:"الدلوعة كريسبي", p:125}
+        ]},
+        { cat: "🍔 السندوتشات الغربي", items: [
+            {n:"سندوتش كريسبي (سوري)", p:95}, {n:"سندوتش كريسبي (فرنساوي)", p:100},
+            {n:"سندوتش زنجر (سوري)", p:100}, {n:"سندوتش زنجر (فرنساوي)", p:100},
+            {n:"سندوتش تشيز برغر لحم", p:95}, {n:"سندوتش هالك دبل كريسبي", p:150},
+            {n:"سندوتش شيش (سوري)", p:95}, {n:"سندوتش شيش (فرنساوي)", p:100},
+            {n:"سندوتش بطاطس (سوري)", p:50}, {n:"سندوتش بطاطس (فرنساوي)", p:60},
+            {n:"سندوتش بطاطس موتزريلا", p:65}
+        ]},
+        { cat: "🍽️ وجبات الغربي والبروستد", items: [
+            {n:"وجبة بروستد 2 قطعة", p:125}, {n:"وجبة بروستد 4 قطع", p:210},
+            {n:"وجبة بروستد 8 قطع", p:400},
+            {n:"فرخة مشوية (أرز وبطاطس)", p:380}, {n:"نص فرخة مشوية (أرز)", p:200},
+            {n:"وجبة 5 قطع كريسبي", p:160}, {n:"وجبة 5 قطع زنجر", p:165},
+            {n:"وجبة شيش طاووق", p:150}, {n:"وجبة ميكس فراخ ورك", p:145},
+            {n:"وجبة ميكس فراخ صدر", p:165}
+        ]},
+        { cat: "🥘 الفتات", items: [
+            {n:"فتة شاورما فراخ (S)", p:100}, {n:"فتة شاورما فراخ (L)", p:120},
+            {n:"فتة شاورما لحمة (S)", p:120}, {n:"فتة شاورما لحمة (L)", p:150},
+            {n:"فتة ميكس (S)", p:115}, {n:"فتة ميكس (L)", p:140},
+            {n:"فتة ريزو كريسبي", p:110}, {n:"فتة شيش طاووق", p:110}
+        ]},
+        { cat: "🌮 الكريب", items: [
+            {n:"كريب شاورما فراخ", p:100}, {n:"كريب شاورما لحمة", p:130},
+            {n:"كريب كريسبي", p:100}, {n:"كريب زنجر", p:105},
+            {n:"كريب شيش", p:100}, {n:"كريب مشكل جبن", p:70},
+            {n:"كريب نوتيلا", p:70}, {n:"كريب سويت شيلي", p:110}
+        ]},
+        { cat: "🍟 المقبلات والمشروبات", items: [
+            {n:"باكيت بطاطس", p:25}, {n:"بطاطس شيدر", p:50},
+            {n:"طبق أرز", p:35}, {n:"تومية", p:15}, {n:"كول سلو", p:20},
+            {n:"أصابع موتزريلا", p:35}, {n:"مياه معدنية", p:10}, {n:"V Cola", p:20}
+        ]}
+    ];
+
+    // ================== المنطق البرمجي ==================
+    
+    // بناء المنيو
+    const menuContainer = document.getElementById('menuContainer');
+    menuDB.forEach((category, i) => {
+        let html = `<div class="category-title">${category.cat}</div>`;
+        category.items.forEach((item, j) => {
+            const id = `item-${i}-${j}`;
+            html += `
+            <div class="menu-item">
+                <div class="item-details">
+                    <h4>${item.n}</h4>
+                    <p class="item-price">${item.p} ج.م</p>
+                    ${item.d ? `<p>${item.d}</p>` : ''}
+                </div>
+                <div class="qty-control">
+                    <button class="qty-btn" onclick="updateCart('${id}', ${item.p}, -1)">-</button>
+                    <span id="qty-${id}" style="font-weight:bold; min-width:20px; text-align:center">0</span>
+                    <button class="qty-btn" onclick="updateCart('${id}', ${item.p}, 1)">+</button>
+                </div>
+            </div>`;
+        });
+        menuContainer.innerHTML += html;
+    });
+
+    let cart = {}; 
+    let total = 0;
+    
+    function updateCart(id, price, change) {
+        if(!cart[id]) cart[id] = 0;
+        cart[id] += change;
+        if(cart[id] < 0) cart[id] = 0;
+        
+        document.getElementById(`qty-${id}`).innerText = cart[id];
+        
+        total = 0;
+        menuDB.forEach((c, i) => c.items.forEach((item, j) => {
+            const uid = `item-${i}-${j}`;
+            if(cart[uid]) total += item.p * cart[uid];
+        }));
+        
+        document.getElementById('displayTotal').innerText = total;
+    }
+
+    function toggleMenu() {
+        const isOrdering = document.querySelector('input[name="orderChoice"]:checked').value === "yes";
+        const section = document.getElementById('foodSection');
+        const btn = document.getElementById('mainBtn');
+
+        if(isOrdering) {
+            section.classList.remove('hidden');
+            btn.innerText = "تأكيد الطلب والدفع 🚀";
+            btn.style.background = "#27ae60"; 
+        } else {
+            section.classList.add('hidden');
+            btn.innerText = "تسجيل الحضور ✅";
+            btn.style.background = "#800000";
+        }
+    }
+
+    function previewFile() {
+        const file = document.getElementById('receiptFile').files[0];
+        if(file) document.getElementById('fileName').innerText = "✅ تم اختيار: " + file.name;
+    }
+
+    const toBase64 = file => new Promise((resolve, reject) => {
+        const reader = new FileReader();
+        reader.readAsDataURL(file);
+        reader.onload = () => resolve(reader.result);
+        reader.onerror = error => reject(error);
+    });
+
+    async function submitForm() {
+        const name = document.getElementById('name').value;
+        const phone = document.getElementById('phone').value;
+        const email = document.getElementById('email').value;
+        const catId = document.getElementById('catId').value;
+        const isOrdering = document.querySelector('input[name="orderChoice"]:checked').value;
+
+        if(!name || !phone || !catId) { alert("من فضلك أكمل بياناتك الشخصية أولاً"); return; }
+
+        let payload = { name, phone, email, catId, isOrder: isOrdering };
+
+        if (isOrdering === "yes") {
+            if (total === 0) { alert("لم تختر أي وجبات!"); return; }
+            const fileInput = document.getElementById('receiptFile');
+            if (fileInput.files.length === 0) { alert("يجب رفع صورة التحويل لإتمام الطلب"); return; }
+
+            let orderText = "";
+            menuDB.forEach((c, i) => c.items.forEach((item, j) => {
+                const uid = `item-${i}-${j}`;
+                if(cart[uid]) orderText += `${item.n} (${cart[uid]}) | `;
+            }));
+
+            payload.order = orderText;
+            payload.total = total;
+            
+            try {
+                const file = fileInput.files[0];
+                payload.file = await toBase64(file);
+                payload.fileName = file.name;
+                payload.mimeType = file.type;
+            } catch(e) { alert("خطأ في قراءة الصورة"); return; }
+        }
+
+        const btn = document.getElementById('mainBtn');
+        const oldText = btn.innerText;
+        btn.innerText = "جاري الإرسال...";
+        btn.disabled = true;
+
+        fetch(SCRIPT_URL, {
+            method: "POST",
+            mode: "no-cors",
+            body: JSON.stringify(payload)
+        }).then(() => {
+            alert(isOrdering === "yes" ? "تم استلام طلبك والدفع بنجاح!" : "تم تسجيل حضورك بنجاح!");
+            location.reload();
+        }).catch(err => {
+            alert("حدث خطأ، حاول مرة أخرى");
+            btn.innerText = oldText;
+            btn.disabled = false;
+        });
+    }
+</script>
+
+</body>
+</html>
