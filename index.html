@@ -5,87 +5,64 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Orientation Day - CAT Reloaded</title>
     <style>
-        :root { --primary: #800000; --text: #333; --bg: #f4f4f4; --accent: #d35400; }
+        :root { --primary: #800000; --text: #333; --bg: #f4f4f4; --accent: #d35400; --shady: #e91e63; }
         body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-color: var(--bg); margin: 0; padding-bottom: 80px; }
         
-        /* الهيدر */
         .hero-image { width: 100%; max-height: 350px; object-fit: cover; display: block; border-bottom: 5px solid var(--primary); }
         .page-title { text-align: center; color: var(--primary); font-size: 2.2rem; margin: 20px 0; text-transform: uppercase; letter-spacing: 1px; font-weight: 900; }
-        
         .container { max-width: 800px; margin: 0 auto; padding: 15px; }
 
-        /* الكروت */
         .card { background: white; padding: 20px; border-radius: 12px; box-shadow: 0 4px 10px rgba(0,0,0,0.08); margin-bottom: 20px; border-top: 4px solid var(--primary); }
+        .card.shady-card { border-top-color: var(--shady); }
         h3 { color: var(--primary); margin-top: 0; border-bottom: 1px solid #eee; padding-bottom: 10px; font-size: 1.3rem; }
+        .shady-title { color: var(--shady); }
+        
+        /* بادج الخصم */
+        .discount-badge { background: #ffeb3b; color: #d32f2f; padding: 5px 10px; border-radius: 15px; font-size: 0.8rem; font-weight: bold; margin-right: 10px; vertical-align: middle; animation: pulse 2s infinite; }
+        @keyframes pulse { 0% { transform: scale(1); } 50% { transform: scale(1.05); } 100% { transform: scale(1); } }
 
-        /* المدخلات */
         .input-group { margin-bottom: 15px; }
         .input-group label { display: block; margin-bottom: 5px; font-weight: bold; color: #555; }
         .input-group input { width: 100%; padding: 12px; border: 1px solid #ccc; border-radius: 8px; box-sizing: border-box; font-size: 1rem; }
         
-        /* خيار الأكل */
         .choice-container { display: flex; gap: 15px; justify-content: center; margin: 15px 0; }
         .choice-label { cursor: pointer; display: flex; align-items: center; gap: 8px; padding: 10px 20px; background: #eee; border-radius: 25px; transition: 0.3s; font-weight: bold; }
         .choice-label:hover { background: #e0e0e0; }
         input[type="radio"]:checked + span { color: var(--primary); }
+        .shady-choice input[type="radio"]:checked + span { color: var(--shady); }
 
-        /* =========================================
-           تعديلات القائمة المنسدلة (Accordion CSS)
-           ========================================= */
-        .category-header {
-            background: #2c3e50;
-            color: white;
-            padding: 15px;
-            border-radius: 8px;
-            margin-top: 15px;
-            font-weight: bold;
-            font-size: 1.1rem;
-            cursor: pointer;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            transition: background 0.3s;
-        }
+        .category-header { background: #2c3e50; color: white; padding: 15px; border-radius: 8px; margin-top: 15px; font-weight: bold; font-size: 1.1rem; cursor: pointer; display: flex; justify-content: space-between; align-items: center; transition: background 0.3s; }
         .category-header:hover { background: #34495e; }
+        .category-header.shady-header { background: var(--shady); }
+        .category-header.shady-header:hover { background: #c2185b; }
         
-        /* السهم */
         .arrow-icon { transition: transform 0.3s ease; font-size: 0.8rem; }
         .category-header.active .arrow-icon { transform: rotate(180deg); }
 
-        /* حاوية العناصر (مخفية افتراضياً) */
-        .items-container {
-            display: none; /* مخفي */
-            background: #fff;
-            padding: 0 10px;
-            border: 1px solid #eee;
-            border-top: none;
-            border-bottom-left-radius: 8px;
-            border-bottom-right-radius: 8px;
-            animation: fadeIn 0.3s ease;
-        }
-        .items-container.show { display: block; } /* يظهر عند الضغط */
-
+        .items-container { display: none; background: #fff; padding: 0 10px; border: 1px solid #eee; border-top: none; border-bottom-left-radius: 8px; border-bottom-right-radius: 8px; animation: fadeIn 0.3s ease; }
+        .items-container.show { display: block; }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(-5px); } to { opacity: 1; transform: translateY(0); } }
 
-        /* عناصر المنيو */
         .menu-item { display: flex; justify-content: space-between; align-items: center; padding: 12px 0; border-bottom: 1px solid #f0f0f0; }
-        .menu-item:last-child { border-bottom: none; }
         .item-details { flex: 1; padding-left: 10px; }
         .item-details h4 { margin: 0; color: #333; font-size: 1rem; }
         .item-details p { margin: 4px 0 0; font-size: 0.85rem; color: #777; }
-        .item-price { color: var(--accent); font-weight: bold; display: block; margin-top: 2px; }
         
+        .item-price { color: var(--accent); font-weight: bold; display: block; margin-top: 2px; }
+        .shady-price { color: var(--shady); }
+        /* السعر القديم المشطوب */
+        .old-price { text-decoration: line-through; color: #999; font-size: 0.85rem; margin-left: 5px; font-weight: normal; }
+
         .qty-control { display: flex; align-items: center; gap: 8px; background: #f9f9f9; padding: 4px; border-radius: 20px; }
         .qty-btn { width: 28px; height: 28px; border-radius: 50%; border: none; background: var(--primary); color: white; cursor: pointer; font-size: 1.2rem; display: flex; align-items: center; justify-content: center; padding-bottom: 3px; }
+        .qty-btn.shady-btn { background: var(--shady); }
         
-        /* الدفع */
         .payment-box { text-align: center; border: 2px dashed var(--primary); padding: 20px; background: #fffdfd; border-radius: 10px; }
         .vf-number { font-size: 1.6rem; font-weight: bold; color: #d35400; display: block; margin: 10px 0; letter-spacing: 1px; }
 
         .hidden { display: none; }
         .submit-btn { width: 100%; padding: 16px; background: var(--primary); color: white; border: none; font-size: 1.2rem; font-weight: bold; border-radius: 8px; cursor: pointer; margin-top: 10px; }
         .submit-btn:hover { background: #600000; }
-        
     </style>
 </head>
 <body>
@@ -104,19 +81,36 @@
         </div>
 
         <div class="card" style="text-align: center;">
-            <h3>🍽️ هل ستطلب غداء؟</h3>
+            <h3>🍽️ هل ستطلب غداء (روح دمشق)؟</h3>
             <div class="choice-container">
-                <label class="choice-label"><input type="radio" name="orderChoice" value="yes" onchange="toggleMenu()"> <span>نعم، سأطلب</span></label>
-                <label class="choice-label"><input type="radio" name="orderChoice" value="no" checked onchange="toggleMenu()"> <span>لا، حضور فقط</span></label>
+                <label class="choice-label"><input type="radio" name="lunchChoice" value="yes" onchange="toggleLunch()"> <span>نعم، سأطلب</span></label>
+                <label class="choice-label"><input type="radio" name="lunchChoice" value="no" checked onchange="toggleLunch()"> <span>لا</span></label>
             </div>
         </div>
 
-        <div id="foodSection" class="hidden">
+        <div id="lunchSection" class="hidden">
             <div class="card">
-                <h3>📜 المنيو (اضغط لفتح الأقسام) روح دمشق</h3>
+                <h3>📜 منيو روح دمشق (اضغط للفتح)</h3>
                 <div id="menuContainer"></div>
             </div>
+        </div>
 
+        <div class="card shady-card" style="text-align: center;">
+            <h3 class="shady-title">🍩 هل ستحلي (شادي دوناتس)؟ <span class="discount-badge">🔥 خصم 20%</span></h3>
+            <div class="choice-container shady-choice">
+                <label class="choice-label"><input type="radio" name="shadyChoice" value="yes" onchange="toggleShady()"> <span>نعم، سأحلي</span></label>
+                <label class="choice-label"><input type="radio" name="shadyChoice" value="no" checked onchange="toggleShady()"> <span>لا</span></label>
+            </div>
+        </div>
+
+        <div id="shadySection" class="hidden">
+            <div class="card shady-card">
+                <h3 class="shady-title">🍩 منيو شادي (الأسعار بعد الخصم)</h3>
+                <div id="shadyMenuContainer"></div>
+            </div>
+        </div>
+
+        <div id="paymentSection" class="hidden">
             <div class="card">
                 <h3>💳 الدفع وتأكيد الطلب</h3>
                 <div class="payment-box">
@@ -142,7 +136,11 @@
     // ============================================================
     const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwBfy4LssvIAzn35IKgMDyYO2R220Ph0rA99MR1S8DPPMlXKHzAix2ihFxErVOqyHOY/exec";
 
-    // ================== قاعدة بيانات المنيو الكاملة ==================
+    let cart = {};
+    let totalLunch = 0;
+    let totalShady = 0;
+
+    // ================== قاعدة بيانات روح دمشق ==================
     const menuDB = [
         { cat: "📦 بوكسات اللمة والصحاب", items: [
             {n:"بوكس اللمة (فراخ)", p:420, d:"5 سندوتشات لارج مقطعين"},
@@ -227,86 +225,138 @@
         { cat: "🍟 المقبلات والمشروبات", items: [
             {n:"باكيت بطاطس", p:25}, {n:"بطاطس شيدر", p:50},
             {n:"طبق أرز", p:35}, {n:"تومية", p:15}, {n:"كول سلو", p:20},
-            {n:"أصابع موتزريلا", p:35}, {n:"مياه معدنية", p:10}, {n:"V Cola", p:20}
+            {n:"أصابع موتزريلا", p:35}, {n:"مياه معدنية", p:10}, {n:"V Cola", p:25}
         ]}
     ];
 
-    // ================== المنطق البرمجي ==================
-    
-    // بناء المنيو (بتعديل القوائم المنسدلة)
-    const menuContainer = document.getElementById('menuContainer');
-    
-    // دالة لفتح وإغلاق الأقسام
+    // ================== قاعدة بيانات شادي دوناتس (تم تطبيق خصم 20%) ==================
+    // المعادلة: السعر القديم * 0.8
+    const shadyDB = [
+        { cat: "🍩 دوناتس محشية (Stuffed)", items: [
+            {n:"Nutella", p:44, oldP:55}, {n:"Lotus", p:44, oldP:55}, {n:"Kinder", p:44, oldP:55},
+            {n:"Ferrero Rocher", p:48, oldP:60}, {n:"Pistachio", p:56, oldP:70}, {n:"Mocha", p:48, oldP:60},
+            {n:"Carmel", p:48, oldP:60}, {n:"Dreamy", p:44, oldP:55}, {n:"Dreamy Strawberry", p:48, oldP:60},
+            {n:"Dreamy Berry", p:48, oldP:60}, {n:"Dreamy Cherry", p:48, oldP:60}, {n:"White Chocolate", p:44, oldP:55},
+            {n:"Nutella Oreo", p:48, oldP:60}, {n:"Kunafa Nutella", p:48, oldP:60}, {n:"Kunafa Kinder", p:48, oldP:60},
+            {n:"Kunafa Lotus", p:48, oldP:60}, {n:"Kunafa Pistachio", p:60, oldP:75}
+        ]},
+        { cat: "🥯 دوناتس أوريجينال (Original)", items: [
+            {n:"Nutella", p:40, oldP:50}, {n:"Nutella Nuts", p:48, oldP:60}, {n:"Glezd", p:40, oldP:50},
+            {n:"White Chocolate", p:40, oldP:50}, {n:"Ferrero Rocher", p:44, oldP:55}, {n:"White Berry", p:48, oldP:60},
+            {n:"White Strawberry", p:48, oldP:60}, {n:"White Cherry", p:48, oldP:60}, {n:"Carmel", p:40, oldP:50},
+            {n:"Pistachio", p:52, oldP:65}, {n:"Nutella Oreo", p:44, oldP:55}, {n:"Kunafa Nutella", p:44, oldP:55},
+            {n:"Kunafa Kinder", p:44, oldP:55}, {n:"Kunafa Lotus", p:44, oldP:55}, {n:"Kunafa Pistachio", p:56, oldP:70}
+        ]},
+        { cat: "📦 ميني دوناتس (Mini Donuts)", items: [
+            {n:"Box 6 Pcs", p:112, oldP:140}, {n:"Box 12 Pcs", p:220, oldP:275}, {n:"Box 24 Pcs", p:432, oldP:540}
+        ]},
+        { cat: "✨ عروض خاصة (محشية)", items: [
+            {n:"Box 6 Pcs (Max 2 Pistachio)", p:248, oldP:310},
+            {n:"Box 12 Pcs (Max 4 Pistachio)", p:496, oldP:620},
+            {n:"Box 18 Pcs (Max 6 Pistachio)", p:744, oldP:930}
+        ]},
+        { cat: "✨ عروض خاصة (أوريجينال)", items: [
+            {n:"Box 6 Pcs (Max 2 Pistachio)", p:232, oldP:290},
+            {n:"Box 12 Pcs (Max 4 Pistachio)", p:464, oldP:580},
+            {n:"Box 18 Pcs (Max 6 Pistachio)", p:712, oldP:890}
+        ]}
+    ];
+
+    function buildMenu(database, containerId, prefix, btnClass = '') {
+        const container = document.getElementById(containerId);
+        database.forEach((category, i) => {
+            let html = `
+            <div class="category-wrapper">
+                <div class="category-header ${btnClass ? 'shady-header' : ''}" onclick="toggleCategory(this)">
+                    <span>${category.cat}</span>
+                    <span class="arrow-icon">▼</span>
+                </div>
+                <div class="items-container">
+            `;
+            category.items.forEach((item, j) => {
+                const id = `${prefix}-${i}-${j}`;
+                // عرض السعر القديم مشطوب إذا وجد
+                const priceDisplay = item.oldP 
+                    ? `<span class="shady-price">${item.p} ج.م</span> <span class="old-price">${item.oldP}</span>` 
+                    : `<span class="${btnClass ? 'shady-price' : ''}">${item.p} ج.م</span>`;
+
+                html += `
+                <div class="menu-item">
+                    <div class="item-details">
+                        <h4>${item.n}</h4>
+                        <div class="item-price">${priceDisplay}</div>
+                        ${item.d ? `<p>${item.d}</p>` : ''}
+                    </div>
+                    <div class="qty-control">
+                        <button class="qty-btn ${btnClass}" onclick="updateCart('${id}', ${item.p}, -1)">-</button>
+                        <span id="qty-${id}" style="font-weight:bold; min-width:20px; text-align:center">0</span>
+                        <button class="qty-btn ${btnClass}" onclick="updateCart('${id}', ${item.p}, 1)">+</button>
+                    </div>
+                </div>`;
+            });
+            html += `</div></div>`;
+            container.innerHTML += html;
+        });
+    }
+
+    buildMenu(menuDB, 'menuContainer', 'lunch');
+    buildMenu(shadyDB, 'shadyMenuContainer', 'shady', 'shady-btn');
+
     window.toggleCategory = function(header) {
-        // التبديل بين الفتح والإغلاق
         header.classList.toggle('active');
-        const content = header.nextElementSibling;
-        content.classList.toggle('show');
+        header.nextElementSibling.classList.toggle('show');
     };
 
-    menuDB.forEach((category, i) => {
-        // إنشاء الهيدر (العنوان)
-        let html = `
-        <div class="category-wrapper">
-            <div class="category-header" onclick="toggleCategory(this)">
-                <span>${category.cat}</span>
-                <span class="arrow-icon">▼</span>
-            </div>
-            <div class="items-container">
-        `;
-        
-        // إنشاء العناصر داخل الهيدر
-        category.items.forEach((item, j) => {
-            const id = `item-${i}-${j}`;
-            html += `
-            <div class="menu-item">
-                <div class="item-details">
-                    <h4>${item.n}</h4>
-                    <p class="item-price">${item.p} ج.م</p>
-                    ${item.d ? `<p>${item.d}</p>` : ''}
-                </div>
-                <div class="qty-control">
-                    <button class="qty-btn" onclick="updateCart('${id}', ${item.p}, -1)">-</button>
-                    <span id="qty-${id}" style="font-weight:bold; min-width:20px; text-align:center">0</span>
-                    <button class="qty-btn" onclick="updateCart('${id}', ${item.p}, 1)">+</button>
-                </div>
-            </div>`;
-        });
-
-        html += `</div></div>`; // إغلاق الحاويات
-        menuContainer.innerHTML += html;
-    });
-
-    let cart = {}; 
-    let total = 0;
-    
     function updateCart(id, price, change) {
         if(!cart[id]) cart[id] = 0;
         cart[id] += change;
         if(cart[id] < 0) cart[id] = 0;
         
         document.getElementById(`qty-${id}`).innerText = cart[id];
-        
-        total = 0;
-        menuDB.forEach((c, i) => c.items.forEach((item, j) => {
-            const uid = `item-${i}-${j}`;
-            if(cart[uid]) total += item.p * cart[uid];
-        }));
-        
-        document.getElementById('displayTotal').innerText = total;
+        calculateTotal();
     }
 
-    function toggleMenu() {
-        const isOrdering = document.querySelector('input[name="orderChoice"]:checked').value === "yes";
-        const section = document.getElementById('foodSection');
-        const btn = document.getElementById('mainBtn');
+    function calculateTotal() {
+        totalLunch = 0;
+        totalShady = 0;
+        
+        menuDB.forEach((c, i) => c.items.forEach((item, j) => {
+            const id = `lunch-${i}-${j}`;
+            if(cart[id]) totalLunch += item.p * cart[id];
+        }));
 
-        if(isOrdering) {
-            section.classList.remove('hidden');
+        shadyDB.forEach((c, i) => c.items.forEach((item, j) => {
+            const id = `shady-${i}-${j}`;
+            if(cart[id]) totalShady += item.p * cart[id]; // السعر هنا هو المخفض
+        }));
+        
+        const grandTotal = totalLunch + totalShady;
+        document.getElementById('displayTotal').innerText = grandTotal;
+        togglePaymentSection(grandTotal > 0);
+    }
+
+    function toggleLunch() {
+        const isYes = document.querySelector('input[name="lunchChoice"]:checked').value === "yes";
+        document.getElementById('lunchSection').classList.toggle('hidden', !isYes);
+        calculateTotal();
+    }
+
+    function toggleShady() {
+        const isYes = document.querySelector('input[name="shadyChoice"]:checked').value === "yes";
+        document.getElementById('shadySection').classList.toggle('hidden', !isYes);
+        calculateTotal();
+    }
+
+    function togglePaymentSection(show) {
+        const paymentSection = document.getElementById('paymentSection');
+        const btn = document.getElementById('mainBtn');
+        
+        if (show) {
+            paymentSection.classList.remove('hidden');
             btn.innerText = "تأكيد الطلب والدفع 🚀";
-            btn.style.background = "#27ae60"; 
+            btn.style.background = "#27ae60";
         } else {
-            section.classList.add('hidden');
+            paymentSection.classList.add('hidden');
             btn.innerText = "تسجيل الحضور ✅";
             btn.style.background = "#800000";
         }
@@ -329,25 +379,38 @@
         const phone = document.getElementById('phone').value;
         const email = document.getElementById('email').value;
         const catId = document.getElementById('catId').value;
-        const isOrdering = document.querySelector('input[name="orderChoice"]:checked').value;
+        const grandTotal = totalLunch + totalShady;
 
         if(!name || !phone || !catId) { alert("من فضلك أكمل بياناتك الشخصية أولاً"); return; }
 
-        let payload = { name, phone, email, catId, isOrder: isOrdering };
+        let payload = { name, phone, email, catId };
+        let orderText = "";
 
-        if (isOrdering === "yes") {
-            if (total === 0) { alert("لم تختر أي وجبات!"); return; }
-            const fileInput = document.getElementById('receiptFile');
-            if (fileInput.files.length === 0) { alert("يجب رفع صورة التحويل لإتمام الطلب"); return; }
-
-            let orderText = "";
-            menuDB.forEach((c, i) => c.items.forEach((item, j) => {
-                const uid = `item-${i}-${j}`;
-                if(cart[uid]) orderText += `${item.n} (${cart[uid]}) | `;
-            }));
+        if (grandTotal > 0) {
+            if (totalLunch > 0) {
+                orderText += "--- [طلب الغداء] ---\n";
+                menuDB.forEach((c, i) => c.items.forEach((item, j) => {
+                    const id = `lunch-${i}-${j}`;
+                    if(cart[id]) orderText += `${item.n} (${cart[id]}) | `;
+                }));
+                orderText += "\n";
+            }
+            
+            if (totalShady > 0) {
+                orderText += "\n--- [طلب الدوناتس] ---\n";
+                shadyDB.forEach((c, i) => c.items.forEach((item, j) => {
+                    const id = `shady-${i}-${j}`;
+                    if(cart[id]) orderText += `${item.n} (${cart[id]}) | `;
+                }));
+                orderText += "\n";
+            }
 
             payload.order = orderText;
-            payload.total = total;
+            payload.total = grandTotal;
+            payload.isOrder = "yes";
+
+            const fileInput = document.getElementById('receiptFile');
+            if (fileInput.files.length === 0) { alert("يجب رفع صورة التحويل لإتمام الطلب"); return; }
             
             try {
                 const file = fileInput.files[0];
@@ -355,6 +418,10 @@
                 payload.fileName = file.name;
                 payload.mimeType = file.type;
             } catch(e) { alert("خطأ في قراءة الصورة"); return; }
+        } else {
+            payload.isOrder = "no";
+            payload.order = "حضور فقط";
+            payload.total = 0;
         }
 
         const btn = document.getElementById('mainBtn');
@@ -367,7 +434,7 @@
             mode: "no-cors",
             body: JSON.stringify(payload)
         }).then(() => {
-            alert(isOrdering === "yes" ? "تم استلام طلبك والدفع بنجاح!" : "تم تسجيل حضورك بنجاح!");
+            alert(grandTotal > 0 ? "تم استلام طلبك والدفع بنجاح!" : "تم تسجيل حضورك بنجاح!");
             location.reload();
         }).catch(err => {
             alert("حدث خطأ، حاول مرة أخرى");
@@ -379,4 +446,3 @@
 
 </body>
 </html>
-
