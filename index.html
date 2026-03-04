@@ -85,7 +85,7 @@
             <h3>🏪 اختر المطعم</h3>
             <div class="choice-container">
                 <label class="choice-label"><input type="radio" name="restaurantChoice" value="0" onchange="renderMenu()"> <span>🍔 Bremer</span></label>
-                <label class="choice-label"><input type="radio" name="restaurantChoice" value="1" onchange="renderMenu()"> <span>🍕 Dot Pizza</span></label>
+                <label class="choice-label"><input type="radio" name="restaurantChoice" value="1" onchange="renderMenu()"> <span>🍕 Dot Pizza (خصم 10%)</span></label>
             </div>
         </div>
 
@@ -136,13 +136,13 @@
             { c: "مشروبات باردة", i: [{n:"Iced Mocha",p:120},{n:"Iced White Mocha",p:120},{n:"Iced Spanish Latte",p:110}] },
             { c: "مشروبات ساخنة", i: [{n:"Espresso Single",p:50},{n:"Espresso Double",p:70},{n:"Turkish Coffee",p:75},{n:"Cappuccino",p:100},{n:"Latte",p:100},{n:"Macchiato",p:80},{n:"Cortado",p:85},{n:"Flat White",p:85},{n:"Mocha",p:120},{n:"White Mocha",p:120},{n:"Spanish Latte",p:110}] }
         ]},
-       { r: "Dot Pizza", cats: [
-            { c: "البيتزا", i: [{n:"Margarita (M)",p:135},{n:"Margarita (L)",p:153},{n:"Watercress (M)",p:135},{n:"Watercress (L)",p:153},{n:"Bufala (M)",p:144},{n:"Bufala (L)",p:162},{n:"Cheese Lovers (M)",p:189},{n:"Cheese Lovers (L)",p:207},{n:"Pesto (M)",p:144},{n:"Pesto (L)",p:166.5},{n:"Mushroom (M)",p:144},{n:"Mushroom (L)",p:171},{n:"Chicken Crunchy (M)",p:171},{n:"Chicken Crunchy (L)",p:189},{n:"Chicken BBQ (M)",p:162},{n:"Chicken BBQ (L)",p:184.5},{n:"Chicken Ranch (M)",p:171},{n:"Chicken Ranch (L)",p:189},{n:"Peperoni (M)",p:153},{n:"Peperoni (L)",p:175.5},{n:"Quatro (L)",p:189},{n:"Diavola (M)",p:207},{n:"Diavola (L)",p:225},{n:"Smoked (M)",p:171},{n:"Smoked (L)",p:189},{n:"Beef (M)",p:189},{n:"Beef (L)",p:207},{n:"Shrimp (M)",p:229.5},{n:"Shrimp (L)",p:270}] },
-            { c: "المكرونة", i: [{n:"Classic Tomato",p:108},{n:"Pesto",p:207},{n:"Alfredo",p:216},{n:"Bolognese",p:198},{n:"Fettuccine Mushroom",p:198},{n:"Farafalle Hotdog",p:180}] },
-            { c: "البطاطس", i: [{n:"French Fries",p:36},{n:"Friskas",p:58.5},{n:"Cheese Fries",p:54},{n:"Fire Fries",p:63}] },
-            { c: "الحلو", i: [{n:"Sweet Pizza",p:90}] },
-            { c: "الإضافات", i: [{n:"Mozzarella Cheese",p:27},{n:"Stuffed Crust",p:27},{n:"Extra Mushroom",p:22.5},{n:"BBQ",p:13.5},{n:"Thousand Island",p:13.5},{n:"Texas Sauce",p:13.5},{n:"Ranch",p:13.5},{n:"Jalapeno",p:13.5},{n:"Sweet Chilli",p:13.5},{n:"Cheese Sauce",p:22.5}] },
-            { c: "المشروبات", i: [{n:"Water",p:9},{n:"V7",p:22.5},{n:"Big Cola 1L",p:36}] }
+      { r: "Dot Pizza", cats: [
+            { c: "البيتزا", i: [{n:"Margarita (M)",p:135,op:150},{n:"Margarita (L)",p:153,op:170},{n:"Watercress (M)",p:135,op:150},{n:"Watercress (L)",p:153,op:170},{n:"Bufala (M)",p:144,op:160},{n:"Bufala (L)",p:162,op:180},{n:"Cheese Lovers (M)",p:189,op:210},{n:"Cheese Lovers (L)",p:207,op:230},{n:"Pesto (M)",p:144,op:160},{n:"Pesto (L)",p:166.5,op:185},{n:"Mushroom (M)",p:144,op:160},{n:"Mushroom (L)",p:171,op:190},{n:"Chicken Crunchy (M)",p:171,op:190},{n:"Chicken Crunchy (L)",p:189,op:210},{n:"Chicken BBQ (M)",p:162,op:180},{n:"Chicken BBQ (L)",p:184.5,op:205},{n:"Chicken Ranch (M)",p:171,op:190},{n:"Chicken Ranch (L)",p:189,op:210},{n:"Peperoni (M)",p:153,op:170},{n:"Peperoni (L)",p:175.5,op:195},{n:"Quatro (L)",p:189,op:210},{n:"Diavola (M)",p:207,op:230},{n:"Diavola (L)",p:225,op:250},{n:"Smoked (M)",p:171,op:190},{n:"Smoked (L)",p:189,op:210},{n:"Beef (M)",p:189,op:210},{n:"Beef (L)",p:207,op:230},{n:"Shrimp (M)",p:229.5,op:255},{n:"Shrimp (L)",p:270,op:300}] },
+            { c: "المكرونة", i: [{n:"Classic Tomato",p:108,op:120},{n:"Pesto",p:207,op:230},{n:"Alfredo",p:216,op:240},{n:"Bolognese",p:198,op:220},{n:"Fettuccine Mushroom",p:198,op:220},{n:"Farafalle Hotdog",p:180,op:200}] },
+            { c: "البطاطس", i: [{n:"French Fries",p:36,op:40},{n:"Friskas",p:58.5,op:65},{n:"Cheese Fries",p:54,op:60},{n:"Fire Fries",p:63,op:70}] },
+            { c: "الحلو", i: [{n:"Sweet Pizza",p:90,op:100}] },
+            { c: "الإضافات", i: [{n:"Mozzarella Cheese",p:27,op:30},{n:"Stuffed Crust",p:27,op:30},{n:"Extra Mushroom",p:22.5,op:25},{n:"BBQ",p:13.5,op:15},{n:"Thousand Island",p:13.5,op:15},{n:"Texas Sauce",p:13.5,op:15},{n:"Ranch",p:13.5,op:15},{n:"Jalapeno",p:13.5,op:15},{n:"Sweet Chilli",p:13.5,op:15},{n:"Cheese Sauce",p:22.5,op:25}] },
+            { c: "المشروبات", i: [{n:"Water",p:9,op:10},{n:"V7",p:22.5,op:25},{n:"Big Cola 1L",p:36,op:40}] }
         ]}
     ];
 
@@ -193,7 +193,10 @@
                 <div class="menu-item">
                     <div class="item-details">
                         <div class="item-name">${item.n}</div>
-                        <div class="item-price">${item.p} L.E</div>
+                        <div class="item-price">
+                        ${item.op ? `<span style="text-decoration: line-through; color: #999; font-size: 0.85em; margin-left: 8px;">${item.op}</span>` : ''}
+                        ${item.p} L.E
+                        </div>
                     </div>
                     <div class="qty-control">
                         <button class="qty-btn" onclick="updCart('${id}', -1)">-</button>
@@ -296,6 +299,7 @@
 
 </body>
 </html>
+
 
 
 
