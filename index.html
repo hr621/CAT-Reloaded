@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html dir="rtl" lang="ar">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Orientation Day - CAT Reloaded</title>
+    <style>
+        :root { --primary: #800000; --text: #333; --bg: #f9f9f9; --accent: #2c3e50; --vodafone: #e60000; }
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-color: var(--bg); margin: 0; padding-bottom: 90px; color: var(--text); }
+        
+        .hero-header { position: relative; border-bottom: 5px solid var(--primary); }
+        .hero-image { width: 100%; max-height: 250px; object-fit: cover; display: block; }
+        .hero-overlay { position: absolute; bottom: 0; left: 0; right: 0; background: linear-gradient(transparent, rgba(0,0,0,0.8)); padding: 20px; color: white; text-align: center; }
+        .hero-overlay h1 { margin: 0; font-size: 2rem; text-transform: uppercase; letter-spacing: 2px; }
+        
+        .container { max-width: 800px; margin: 0 auto; padding: 20px 15px; }
+        .card { background: white; padding: 20px; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); margin-bottom: 20px; border-top: 4px solid var(--primary); }
+        h3 { color: var(--primary); margin-top: 0; border-bottom: 1px solid #eee; padding-bottom: 10px; font-size: 1.2rem; }
+
+        .input-group { margin-bottom: 15px; }
+        .input-group label { display: block; margin-bottom: 5px; font-weight: bold; font-size: 0.9rem; }
+        .input-group input { width: 100%; padding: 12px; border: 1px solid #ddd; border-radius: 8px; font-size: 1rem; box-sizing: border-box;}
+        .input-group input:focus { border-color: var(--primary); outline: none; box-shadow: 0 0 0 3px rgba(128, 0, 0, 0.1); }
+        
+        .choice-container { display: flex; gap: 15px; justify-content: center; margin: 15px 0; flex-wrap: wrap; }
+        .choice-label { cursor: pointer; display: flex; align-items: center; gap: 8px; padding: 12px 25px; background: #fff; border: 1px solid #ddd; border-radius: 25px; font-weight: bold; transition: 0.3s; }
+        input[type="radio"]:checked + span { color: var(--primary); }
+        .choice-label:has(input:checked) { border-color: var(--primary); background: #fff5f5; }
+
+        .restaurant-title { background: var(--primary); color: white; padding: 12px; border-radius: 8px; margin-bottom: 15px; text-align: center; font-size: 1.3rem; font-weight: bold; }
+        .category-header { background: #111; color: white; padding: 15px; border-radius: 8px; margin-top: 10px; font-weight: bold; font-size: 1.1rem; border-right: 5px solid var(--primary); cursor: pointer; display: flex; justify-content: space-between; align-items: center; }
+        .toggle-icon { font-size: 0.9em; transition: transform 0.3s ease; }
+        .category-header.active .toggle-icon { transform: rotate(180deg); color: #d35400; }
+        
+        .category-items { display: none; padding: 10px 0; }
+
+        .menu-item { background: white; padding: 15px; border-radius: 10px; margin-bottom: 10px; display: flex; justify-content: space-between; align-items: center; border: 1px solid #eee; }
+        .item-details { flex: 1; padding-left: 15px; }
+        .item-name { font-weight: bold; font-size: 1.1rem; color: #222; }
+        .item-price { color: #d35400; font-weight: bold; display: block; margin-top: 6px; font-size: 1.1rem; }
+        
+        .qty-control { display: flex; align-items: center; gap: 8px; background: #f8f8f8; padding: 5px 8px; border-radius: 25px; border: 1px solid #eee; }
+        .qty-btn { width: 32px; height: 32px; border-radius: 50%; border: none; background: white; color: var(--primary); cursor: pointer; font-size: 1.2rem; display: flex; align-items: center; justify-content: center; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
+        .qty-btn:active { transform: scale(0.9); }
+        
+        .payment-box { text-align: center; border: 2px dashed var(--primary); padding: 20px; background: #fffdfd; border-radius: 10px; }
+        .vf-number { font-size: 1.8rem; font-weight: bold; color: var(--vodafone); display: block; margin: 10px 0; letter-spacing: 1px; font-family: monospace; }
+        .upload-btn { display: block; margin-top: 15px; cursor: pointer; background: #f0f0f0; padding: 15px; border-radius: 8px; border: 1px solid #ccc; }
+        .hidden { display: none; }
+        
+        .sticky-footer { position: fixed; bottom: 0; left: 0; right: 0; background: white; padding: 15px 20px; box-shadow: 0 -5px 15px rgba(0,0,0,0.05); display: flex; justify-content: space-between; align-items: center; z-index: 1000; border-top: 2px solid #eee; }
+        .sticky-total { font-size: 1.2rem; font-weight: bold; color: #333; }
+        .sticky-total span { color: var(--primary); font-size: 1.4rem; }
+        .submit-btn { background: var(--primary); color: white; border: none; padding: 12px 25px; border-radius: 8px; font-size: 1.1rem; font-weight: bold; cursor: pointer; }
+    </style>
+</head>
+<body>
+
+    <header class="hero-header">
+        <img src="accepted.final.jpg" alt="CAT Reloaded" class="hero-image">
+        <div class="hero-overlay">
+            <h1>CAT Iftar</h1>
+        </div>
+    </header>
+
+    <div class="container">
+        <div class="card">
+            <h3>📝 البيانات الشخصية</h3>
+            <div class="input-group"><label>الاسم بالكامل</label><input type="text" id="name"></div>
+            <div class="input-group"><label>رقم الموبايل</label><input type="tel" id="phone"></div>
+            <div class="input-group"><label>الإيميل </label><input type="email" id="email"></div>
+            <div class="input-group"><label>CAT-ID</label><input type="text" id="catId"></div>
+        </div>
+
+        <div class="card" style="text-align: center;">
+            <h3>🍽️ هل ترغب في طلب غداء / مشروبات؟</h3>
+            <div class="choice-container">
+                <label class="choice-label"><input type="radio" name="orderChoice" value="yes" onchange="toggleMenu()"> <span>نعم، سأطلب</span></label>
+                <label class="choice-label"><input type="radio" name="orderChoice" value="no" checked onchange="toggleMenu()"> <span>لا، حضور فقط</span></label>
+            </div>
+        </div>
+
+        <div class="card hidden" id="restaurantSelection" style="text-align: center;">
+            <h3>🏪 اختر المطعم</h3>
+            <div class="choice-container">
+                <label class="choice-label"><input type="radio" name="restaurantChoice" value="0" onchange="renderMenu()"> <span>🍔 Bremer</span></label>
+                <label class="choice-label"><input type="radio" name="restaurantChoice" value="1" onchange="renderMenu()"> <span>🍕 Dot Pizza</span></label>
+            </div>
+        </div>
+
+        <div id="foodSection" class="hidden">
+            <div class="card" id="menuContainer">
+                </div>
+
+            <div class="card">
+                <h3>💳 الدفع وتأكيد الطلب</h3>
+                <div class="payment-box">
+                    <p>الإجمالي المطلوب دفعه</p>
+                    <span id="displayTotal" style="font-weight:bold; font-size:2rem; color:var(--primary)">0</span> <span style="font-weight:bold; color:var(--primary)">L.E</span>
+                    <hr style="margin: 20px 0; opacity: 0.3;">
+                    <p>برجاء التحويل عبر فودافون كاش على الرقم:</p>
+                    <span class="vf-number">01028786829</span>
+                    <label class="upload-btn">
+                        <span style="font-size: 1.5rem;">📸</span><br> اضغط هنا لرفع سكرين شوت التحويل
+                        <input type="file" id="receiptFile" accept="image/*" style="display:none" onchange="previewFile()">
+                    </label>
+                    <div id="fileName" style="margin-top:10px; color:green; font-weight:bold; font-size:0.9rem;"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="sticky-footer">
+        <div class="sticky-total">الإجمالي: <span id="grand-total">0</span> L.E</div>
+        <button class="submit-btn" onclick="submitForm()" id="mainBtn">تسجيل الحضور ✅</button>
+    </div>
+
+<script>
+    const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbw08tx1GupnOhM_wnQ-sFAz-I6WXVkW6oSW4p3RnrXxwEkJeu25c4YxD7X6hV6eb68o/exec";
+
+    // قاعدة البيانات للمطعمين
+    const DB = [
+        { r: "Bremer", cats: [
+            { c: "الأطباق الآسيوية", i: [{n:"Sweet & Sour",p:240},{n:"Kung Pao Chicken",p:230},{n:"Hong Kong Beef",p:350},{n:"Shrimps Masala",p:350},{n:"Chicken Biryani",p:250},{n:"Butter Chicken",p:260},{n:"Chicken Tikka Masala",p:260}] },
+            { c: "الأطباق الرئيسية", i: [{n:"Nashville Tenders",p:255},{n:"Smoked Cheesy",p:260},{n:"Smoked Crunchy",p:270},{n:"Crunchy Chicken",p:220},{n:"Buffalo Crunchy",p:275},{n:"Chicken A La Creme",p:280},{n:"Steak",p:520}] },
+            { c: "البرجر", i: [{n:"Buff Chicken",p:170},{n:"OG Burger",p:240},{n:"Little Nashville",p:150}] },
+            { c: "الوجبات الشرقية", i: [{n:"Tandoori & Shish",p:265},{n:"Tandoori Chicken",p:265},{n:"Chicken Breasts",p:260},{n:"Grilled Kofta",p:330},{n:"Shish & Kebab",p:335},{n:"Mix Grill",p:340},{n:"Kebab & Kofta",p:380},{n:"Tandoori Mix Grill",p:410}] },
+            { c: "أطباق الأرز", i: [{n:"Tandoori Chicken Rice",p:210},{n:"Grilled Kofta Rice",p:225},{n:"Beef Stroganoff",p:350},{n:"Shish Tawook Rice",p:205}] },
+            { c: "السندوتشات", i: [{n:"Sweet Chili Crunchy (L)",p:140},{n:"Sweet Chili Crunchy (Bag)",p:179},{n:"Cordon Bleu (L)",p:139},{n:"Cordon Bleu (Bag)",p:175},{n:"Crispy Smoky (L)",p:165},{n:"Crispy Smoky (Bag)",p:205},{n:"Shish Tawook (L)",p:138},{n:"Shish Tawook (Bag)",p:170},{n:"Buffalo Crunchy (L)",p:165},{n:"Buffalo Crunchy (Bag)",p:205},{n:"Grilled Chicken (L)",p:140},{n:"Grilled Chicken (Bag)",p:175},{n:"Tandoori Chicken (L)",p:150},{n:"Tandoori Chicken (Bag)",p:189},{n:"Grilled Kofta (L)",p:140},{n:"Grilled Kofta (Bag)",p:180},{n:"Philly Cheese Steak",p:290}] },
+            { c: "البيتزا", i: [{n:"Tandoori Ranch (M)",p:230},{n:"Tandoori Ranch (L)",p:275},{n:"Vegetarian (M)",p:175},{n:"Vegetarian (L)",p:205},{n:"BR Pizza (M)",p:240},{n:"BR Pizza (L)",p:275},{n:"Special Quattro (M)",p:220},{n:"Special Quattro (L)",p:250},{n:"Cheese Lovers (M)",p:195},{n:"Cheese Lovers (L)",p:230},{n:"Quattro Formaggi (M)",p:205},{n:"Quattro Formaggi (L)",p:240},{n:"Cheesy Pepperoni (M)",p:215},{n:"Cheesy Pepperoni (L)",p:245},{n:"Cheesy Supreme (M)",p:225},{n:"Cheesy Supreme (L)",p:270},{n:"Chicken Pizza (M)",p:210},{n:"Chicken Pizza (L)",p:250},{n:"Tuna Pizza (M)",p:180},{n:"Tuna Pizza (L)",p:220},{n:"Super Supreme (M)",p:215},{n:"Super Supreme (L)",p:260},{n:"Chicken BBQ (M)",p:220},{n:"Chicken BBQ (L)",p:255}] },
+            { c: "الحلويات", i: [{n:"Molten Sticks",p:155},{n:"Cookie Dough",p:135},{n:"Pain Perdu",p:150},{n:"Chocolate Souffle",p:135},{n:"Chocolate Cheesecake",p:120},{n:"Bueno Cake",p:210},{n:"Saltin' Up",p:220}] },
+            { c: "أطباق جانبية", i: [{n:"Wings Combo",p:145},{n:"French Fries",p:40},{n:"Regular Combo",p:60},{n:"Texas Combo",p:129},{n:"BR Combo",p:139},{n:"Sweet Corn",p:50},{n:"Small Rice",p:45},{n:"Kashmiri Rice",p:60},{n:"Pasta",p:65},{n:"Creamy Pasta",p:75},{n:"Noodles",p:65},{n:"Mashed Potatoes",p:40},{n:"Coleslaw",p:50},{n:"Green Salad",p:45},{n:"Soft Drinks",p:33},{n:"Small Water",p:20}] },
+            { c: "مشروبات باردة", i: [{n:"Iced Mocha",p:120},{n:"Iced White Mocha",p:120},{n:"Iced Spanish Latte",p:110}] },
+            { c: "مشروبات ساخنة", i: [{n:"Espresso Single",p:50},{n:"Espresso Double",p:70},{n:"Turkish Coffee",p:75},{n:"Cappuccino",p:100},{n:"Latte",p:100},{n:"Macchiato",p:80},{n:"Cortado",p:85},{n:"Flat White",p:85},{n:"Mocha",p:120},{n:"White Mocha",p:120},{n:"Spanish Latte",p:110}] }
+        ]},
+        { r: "Dot Pizza", cats: [
+            { c: "البيتزا", i: [{n:"Margarita (M)",p:150},{n:"Margarita (L)",p:170},{n:"Watercress (M)",p:150},{n:"Watercress (L)",p:170},{n:"Bufala (M)",p:160},{n:"Bufala (L)",p:180},{n:"Cheese Lovers (M)",p:210},{n:"Cheese Lovers (L)",p:230},{n:"Pesto (M)",p:160},{n:"Pesto (L)",p:185},{n:"Mushroom (M)",p:160},{n:"Mushroom (L)",p:190},{n:"Chicken Crunchy (M)",p:190},{n:"Chicken Crunchy (L)",p:210},{n:"Chicken BBQ (M)",p:180},{n:"Chicken BBQ (L)",p:205},{n:"Chicken Ranch (M)",p:190},{n:"Chicken Ranch (L)",p:210},{n:"Peperoni (M)",p:170},{n:"Peperoni (L)",p:195},{n:"Quatro (L)",p:210},{n:"Diavola (M)",p:230},{n:"Diavola (L)",p:250},{n:"Smoked (M)",p:190},{n:"Smoked (L)",p:210},{n:"Beef (M)",p:210},{n:"Beef (L)",p:230},{n:"Shrimp (M)",p:255},{n:"Shrimp (L)",p:300}] },
+            { c: "المكرونة", i: [{n:"Classic Tomato",p:120},{n:"Pesto",p:230},{n:"Alfredo",p:240},{n:"Bolognese",p:220},{n:"Fettuccine Mushroom",p:220},{n:"Farafalle Hotdog",p:200}] },
+            { c: "البطاطس", i: [{n:"French Fries",p:40},{n:"Friskas",p:65},{n:"Cheese Fries",p:60},{n:"Fire Fries",p:70}] },
+            { c: "الحلو", i: [{n:"Sweet Pizza",p:100}] },
+            { c: "الإضافات", i: [{n:"Mozzarella Cheese",p:30},{n:"Stuffed Crust",p:30},{n:"Extra Mushroom",p:25},{n:"BBQ",p:15},{n:"Thousand Island",p:15},{n:"Texas Sauce",p:15},{n:"Ranch",p:15},{n:"Jalapeno",p:15},{n:"Sweet Chilli",p:15},{n:"Cheese Sauce",p:25}] },
+            { c: "المشروبات", i: [{n:"Water",p:10},{n:"V7",p:25},{n:"Big Cola 1L",p:40}] }
+        ]}
+    ];
+
+    let cart = {}; 
+    let total = 0;
+
+    function toggleMenu() {
+        const isOrder = document.querySelector('input[name="orderChoice"]:checked').value === "yes";
+        document.getElementById('restaurantSelection').classList.toggle('hidden', !isOrder);
+        
+        if (!isOrder) {
+            document.getElementById('foodSection').classList.add('hidden');
+            document.querySelectorAll('input[name="restaurantChoice"]').forEach(r => r.checked = false);
+        }
+        document.getElementById('mainBtn').innerText = isOrder ? "تأكيد الطلب والدفع 🚀" : "تسجيل الحضور ✅";
+    }
+
+    function renderMenu() {
+        const selectedRest = document.querySelector('input[name="restaurantChoice"]:checked');
+        if (!selectedRest) return;
+        
+        const rIdx = parseInt(selectedRest.value);
+        const rest = DB[rIdx];
+        const menuContainer = document.getElementById('menuContainer');
+        
+        let menuHTML = `<div class="restaurant-title">منيو ${rest.r}</div>`;
+        
+        // --- إضافة رابط المنيو التفاعلي الخاص بـ Bremer ---
+        if (rest.r === "Bremer") {
+            menuHTML += `<div style="text-align: center; margin-top: -5px; margin-bottom: 20px;">
+                <a href="https://bremer-eg.com/menu" target="_blank" style="display: inline-block; padding: 10px 20px; background: #ffe4e4; border: 2px solid var(--primary); border-radius: 25px; color: var(--primary); text-decoration: none; font-weight: bold; font-size: 0.95rem; box-shadow: 0 2px 5px rgba(0,0,0,0.1); transition: 0.3s;">
+                    🌐 تصفح المنيو التفاعلي للمطعم من هنا
+                </a>
+            </div>`;
+        }
+        
+        rest.cats.forEach((category, cIdx) => {
+            const catId = `${rIdx}-${cIdx}`;
+            menuHTML += `
+            <div class="category-header" onclick="toggleCat('${catId}')" id="header-${catId}">
+                ${category.c} <span class="toggle-icon">▼</span>
+            </div>
+            <div class="category-items" id="items-${catId}">`;
+            
+            category.i.forEach((item, iIdx) => {
+                const id = `${rIdx}-${cIdx}-${iIdx}`;
+                menuHTML += `
+                <div class="menu-item">
+                    <div class="item-details">
+                        <div class="item-name">${item.n}</div>
+                        <div class="item-price">${item.p} L.E</div>
+                    </div>
+                    <div class="qty-control">
+                        <button class="qty-btn" onclick="updCart('${id}', -1)">-</button>
+                        <span id="qty-${id}" style="font-weight:bold; min-width:20px; text-align:center">0</span>
+                        <button class="qty-btn" onclick="updCart('${id}', 1)">+</button>
+                    </div>
+                </div>`;
+            });
+            menuHTML += `</div>`;
+        });
+        
+        menuContainer.innerHTML = menuHTML;
+        document.getElementById('foodSection').classList.remove('hidden');
+        
+        cart = {};
+        calcTotal();
+    }
+
+    function toggleCat(id) {
+        const items = document.getElementById(`items-${id}`);
+        const header = document.getElementById(`header-${id}`);
+        if (items.style.display === "block") {
+            items.style.display = "none";
+            header.classList.remove("active");
+        } else {
+            items.style.display = "block";
+            header.classList.add("active");
+        }
+    }
+    
+    function updCart(id, change) {
+        if(!cart[id]) cart[id] = 0;
+        cart[id] += change;
+        if(cart[id] < 0) cart[id] = 0;
+        document.getElementById(`qty-${id}`).innerText = cart[id];
+        calcTotal();
+    }
+
+    function calcTotal() {
+        total = 0;
+        Object.keys(cart).forEach(key => {
+            if(cart[key] > 0) {
+                let [rIdx, cIdx, iIdx] = key.split('-');
+                total += DB[rIdx].cats[cIdx].i[iIdx].p * cart[key];
+            }
+        });
+        document.getElementById('displayTotal').innerText = total;
+        document.getElementById('grand-total').innerText = total;
+    }
+
+    function previewFile() {
+        const file = document.getElementById('receiptFile').files[0];
+        if(file) document.getElementById('fileName').innerText = "✅ تم اختيار: " + file.name;
+    }
+
+    const toBase64 = f => new Promise((res, rej) => {
+        const reader = new FileReader(); reader.readAsDataURL(f);
+        reader.onload = () => res(reader.result); reader.onerror = e => rej(e);
+    });
+
+    async function submitForm() {
+        const name = document.getElementById('name').value, phone = document.getElementById('phone').value;
+        const email = document.getElementById('email').value, catId = document.getElementById('catId').value;
+        const isOrder = document.querySelector('input[name="orderChoice"]:checked').value;
+
+        if(!name || !phone || !catId) return alert("من فضلك أكمل بياناتك الأساسية (الاسم، الرقم، CAT-ID)");
+
+        let payload = { name, phone, email, catId, isOrder };
+
+        if (isOrder === "yes") {
+            if (total === 0) return alert("لم تختر أي عناصر من المنيو!");
+            const fileInput = document.getElementById('receiptFile');
+            if (!fileInput.files.length) return alert("يجب رفع صورة فودافون كاش لإتمام الطلب");
+
+            let orderText = "";
+            Object.keys(cart).forEach(key => {
+                if(cart[key] > 0) {
+                    let [rIdx, cIdx, iIdx] = key.split('-');
+                    let rest = DB[rIdx];
+                    let cat = rest.cats[cIdx];
+                    let item = cat.i[iIdx];
+                    orderText += `[${rest.r} - ${cat.c}] ${item.n} (${cart[key]}) | `;
+                }
+            });
+
+            payload.order = orderText; payload.total = total;
+            try {
+                const f = fileInput.files[0];
+                payload.file = await toBase64(f); payload.fileName = f.name; payload.mimeType = f.type;
+            } catch(e) { return alert("خطأ في قراءة الصورة"); }
+        }
+
+        const btn = document.getElementById('mainBtn'); btn.innerText = "جاري الإرسال..."; btn.disabled = true;
+
+        fetch(SCRIPT_URL, { method: "POST", mode: "no-cors", body: JSON.stringify(payload) })
+        .then(() => { alert(isOrder === "yes" ? "تم استلام الطلب والدفع بنجاح!" : "تم تسجيل حضورك بنجاح!"); location.reload(); })
+        .catch(() => { alert("حدث خطأ في الاتصال"); btn.innerText = "تأكيد"; btn.disabled = false; });
+    }
+</script>
+
+</body>
+</html>
