@@ -3,16 +3,17 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Orientation Day - CAT Reloaded</title>
+    <title>CAT Iftar - CAT Reloaded</title>
     <style>
-        :root { --primary: #800000; --text: #333; --bg: #f9f9f9; --accent: #2c3e50; --vodafone: #e60000; }
+        /* :root { --primary: #800000; --text: #333; --bg: #f9f9f9; --accent: #2c3e50; --vodafone: #e60000; } */
+        :root { --primary: #800000; --text: #333; --bg: #fdf2e9; /* خلفية بيج فاتح */ --accent: #2c3e50; --vodafone: #e60000; }
         body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-color: var(--bg); margin: 0; padding-bottom: 90px; color: var(--text); }
         
-        .hero-header { position: relative; border-bottom: 5px solid var(--primary); }
-        .hero-image { width: 100%; max-height: 250px; object-fit: cover; display: block; }
+        .hero-header { position: relative; background-color: #2a0000; /* لون عنابي دافئ يتماشى مع الصورة */ border-bottom: 5px solid var(--primary); display: flex; justify-content: center; align-items: center; overflow: hidden; height: 300px; }
+        .hero-image { max-width: 100%; height: 100%; object-fit: contain; /* عشان الصورة تظهر كاملة من غير قص */ display: block; }
         .hero-overlay { position: absolute; bottom: 0; left: 0; right: 0; background: linear-gradient(transparent, rgba(0,0,0,0.8)); padding: 20px; color: white; text-align: center; }
         .hero-overlay h1 { margin: 0; font-size: 2rem; text-transform: uppercase; letter-spacing: 2px; }
-        
+
         .container { max-width: 800px; margin: 0 auto; padding: 20px 15px; }
         .card { background: white; padding: 20px; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); margin-bottom: 20px; border-top: 4px solid var(--primary); }
         h3 { color: var(--primary); margin-top: 0; border-bottom: 1px solid #eee; padding-bottom: 10px; font-size: 1.2rem; }
@@ -59,7 +60,7 @@
     <header class="hero-header">
         <img src="accepted.final.jpg" alt="CAT Reloaded" class="hero-image">
         <div class="hero-overlay">
-            <h1>CAT Iftar</h1>
+         
         </div>
     </header>
 
