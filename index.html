@@ -259,12 +259,12 @@
 
     async function submitForm() {
         const name = document.getElementById('name').value, phone = document.getElementById('phone').value;
-        const email = document.getElementById('email').value, catId = document.getElementById('catId').value;
+        
         const isOrder = document.querySelector('input[name="orderChoice"]:checked').value;
 
-        if(!name || !phone || !catId) return alert("من فضلك أكمل بياناتك الأساسية (الاسم، الرقم، CAT-ID)");
+        if(!name || !phone ) return alert("من فضلك أكمل بياناتك الأساسية (الاسم، الرقم، CAT-ID)");
 
-        let payload = { name, phone, email, catId, isOrder };
+        let payload = { name, phone, isOrder };
 
         if (isOrder === "yes") {
             if (total === 0) return alert("لم تختر أي عناصر من المنيو!");
