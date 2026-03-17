@@ -86,6 +86,7 @@
             <div class="choice-container">
                 <label class="choice-label"><input type="radio" name="restaurantChoice" value="0" onchange="renderMenu()"> <span>🍔 Bremer</span></label>
                 <label class="choice-label"><input type="radio" name="restaurantChoice" value="1" onchange="renderMenu()"> <span>🍕 Dot Pizza </span></label>
+                <label class="choice-label"><input type="radio" name="restaurantChoice" value="1" onchange="renderMenu()"> <span>🍕 The Chef </span></label>
             </div>
         </div>
 
@@ -153,6 +154,108 @@
         ]}
     ];
 
+    { r: "The Chef", cats: [
+            { c: "المقبلات", i: [
+                {n:"Baked Cheese Sticks",p:129,d:"صوابع محشية بالجبنة السايحة تغطى بخليط الجبنة الكرسبي والمكسرات والهلابينو مع صوص رانش وشيدر"},
+                {n:"Texas French Fries (L)",p:167,d:"بطاطس مغطاه باللحمة المفرومة، كرسبي مقرمش، فلفل ألوان، جبنة شيدر، وهلابينو"},
+                {n:"Texas French Fries (M)",p:92,d:"بطاطس مغطاه باللحمة المفرومة، كرسبي مقرمش، فلفل ألوان، جبنة شيدر، وهلابينو"},
+                {n:"Crunchy Cheese Fries (L)",p:175,d:"بطاطس مقلية مع قطع كرانشي سبايسي وصوص الجبنة الشيدر وقطع الهلابينو"},
+                {n:"Crunchy Cheese Fries (M)",p:99,d:"بطاطس مقلية مع قطع كرانشي سبايسي وصوص الجبنة الشيدر وقطع الهلابينو"},
+                {n:"Bao Chicken",p:162,d:"دجاج مع سمسم وفلفل ألوان وبصل أخضر وزنجبيل وصويا صوص في عيش الباو الياباني"},
+                {n:"Cheese Nachos",p:115,d:"رقائق تورتيا مع مكس أجبان، صوص تشيلي كون كارن، هوني مسطرد وهلابينو"},
+                {n:"Chicken Buffalo Bites",p:159,d:"دجاج مقلي متبل بصوص البافلو الحار يغطيه الكرسبي مع صوص بافلو وشيدر"},
+                {n:"Quesadilla Chicken",p:149,d:"دجاج مشوي وجبن وخضروات داخل عيش تورتيلا مع صوص ساور كريم وصلصة مكسيكية"},
+                {n:"Quesadilla Shrimp",p:359,d:"جمبري مع الجبن والهلابينو والخضار المشوي داخل تورتيلا مع ساور كريم وصلصة مكسيكية"}
+            ]},
+            { c: "السلطات", i: [
+                {n:"Chicken Caesar",p:152,d:"صدور دجاج مشوية مع خس وتوست محمص بالاعشاب وصوص السيزر"},
+                {n:"Thai Chicken",p:159,d:"صدور دجاج مشوية مع خس وطماطم وفلفل ألوان وبصل وصوص تاي وكاجو محمص"},
+                {n:"Ranch B.B.Q",p:146,d:"دجاج مشوي مع خس وجزر وكرنب أحمر وفلفل ألوان بصوص الرانش والباربيكيو وتورتيا مقلي"},
+                {n:"Green Salad (L)",p:79}, {n:"Green Salad (M)",p:47},
+                {n:"Coleslaw",p:49},
+                {n:"Beetroot Rocca",p:129,d:"جرجير ورمان وبنجر وطماطم شيري ومكسرات بصوص البلسميك"}
+            ]},
+            { c: "المكرونة", i: [
+                {n:"Shish Tawook Pasta",p:215,d:"مكرونة بنا بصوص الطماطم مع شيش طاووق مشوي وأعشاب وخضار مشوي"},
+                {n:"Buffalo Chicken",p:209,d:"مكرونة فارفالي بصوص البافلو الحار مع دجاج كرسبي، صوص هوت دوج، مشروم وبصل"},
+                {n:"Rosy Crunchy Chicken",p:209,d:"مكرونة فارفالي مع دجاج كرانشي، وايت صوص مخلوط بصوص الطماطم ومشروم"},
+                {n:"Bites Mac&Cheese",p:228,d:"مكرونة بيني بأجبان مع كور دجاج كرسبي محشية جبنة سايحة بصوص بافلو أو مشروم"},
+                {n:"Chicken Alfredo",p:199,d:"مكرونة بنا بصوص الكريمة مع صدور دجاج مشوية ومشروم"},
+                {n:"Chicken B.B.Q",p:219,d:"مكرونة بنا بصوص الكريمة مع صدور دجاج مشوية وصوص باربيكيو وبصل محمر ومشروم"},
+                {n:"Shrimp Pasta",p:435,d:"مكرونة بنا بصوص روزي مع جمبري مشوي، شبت، فلفل ألوان، زيتون ومشروم"}
+            ]},
+            { c: "أطباق الأرز", i: [
+                {n:"Shish Tawook",p:197,d:"أرز أصفر مع شيش طاووق مشوي وخضار ومايونيز وصلصة مكسيكية"},
+                {n:"Kofta",p:217,d:"أرز أصفر مع كفتة مشوية وخضار ومايونيز وصلصة مكسيكية"},
+                {n:"Shish Tawook & Kofta",p:223,d:"أرز أصفر مع شيش طاووق وكفتة مشوية وخضار ومايونيز وصلصة مكسيكية"},
+                {n:"Beef Stroganoff",p:345,d:"أرز أصفر مع شرائح لحم بصوص المشروم والفلفل الالوان والثوم"},
+                {n:"Shrimp & Rice",p:415,d:"أرز أصفر مع جمبري مشوي على الفحم وفلفل ألوان وصوص الرانش والصلصة المكسيكية"},
+                {n:"Chicken B.B.Q Ranch",p:199,d:"أرز أصفر ودجاج مشوي مع صوص الرانش وصوص الباربيكيو والخضار المشوي"}
+            ]},
+            { c: "أطباق الدجاج", i: [
+                {n:"BBQ Chicken Tower",p:265,d:"صدرين دجاج مشوي مع بيف بيكون وصوص الباربيكيو الكريمي"},
+                {n:"Colorado Chicken",p:265,d:"صدرين دجاج مشوي مع صوص الكريمة، بيف بيكون مشوي، مشروم وصوص باربيكيو"},
+                {n:"Crunchy Cheese Chicken",p:273,d:"4 قطع دجاج كرسبي مع بيف بيكون و صوص الجبنة"},
+                {n:"Cordon Bleu",p:273,d:"2 قطعة كوردن بلو محشية جبنة شيدر وبيف مدخن مغطاة بصوص الجبنة"},
+                {n:"Chicken Madeira",p:265,d:"صدرين دجاج مشوي مع صوص ماديرا ومشروم وبيف مدخن ومكسرات"},
+                {n:"Smoked Chicken Mac & Cheese",p:265,d:"صدرين دجاج مشوي بصوص الجبنة والبافلو مع مكرونة ماك أند تشيز"},
+                {n:"Buffalo Chicken Mac & Cheese",p:265,d:"صدرين دجاج مشوي بصوص البافلو الحار مع مكرونة ماك أند تشيز"}
+            ]},
+            { c: "اللحوم والستيك", i: [
+                {n:"Lamb Chops",p:630,d:"5 قطع ريش ضاني مع أرز بالمكسرات وسلطة بنجر بالرمان"},
+                {n:"Steak White Sauce",p:535,d:"ستيك مشوي بالزبدة والاعشاب مع وايت صوص و 2 طبق جانبي"},
+                {n:"Steak Mushroom Sauce",p:535,d:"ستيك مشوي بالزبدة والاعشاب مع صوص المشروم و 2 طبق جانبي"},
+                {n:"Steak Pepper Sauce",p:535,d:"ستيك مشوي بالزبدة والاعشاب مع صوص الفلفل و 2 طبق جانبي"}
+            ]},
+            { c: "المشويات الشرقية", i: [
+                {n:"Half Grilled Chicken",p:249,d:"نصف دجاجة مخلية مشوية مع أرز وبطاطس وسلطة وثومية"},
+                {n:"Chicken Breasts",p:249,d:"صدور دجاج مشوي مع أرز وبطاطس وسلطة وثومية وصلصة مكسيكية"},
+                {n:"Shish Tawook & Kebab",p:319,d:"4 قطع كباب و 4 شيش طاووق مع أرز وبطاطس وسلطة وطحينة"},
+                {n:"Kofta",p:314,d:"6 قطع كفتة مشوية مع أرز وبطاطس وسلطة وطحينة وصلصة مكسيكية"},
+                {n:"Kebab & Kofta",p:356,d:"4 قطع كباب و 3 كفتة مع أرز وبطاطس وسلطة وطحينة وصلصة مكسيكية"},
+                {n:"Chops & Kofta",p:479,d:"قطعتين ريش ضاني و 3 كفتة مع أرز وبطاطس وسلطة وطحينة وصلصة مكسيكية"},
+                {n:"Mix Grilled",p:329,d:"قطعتين ريش، 2 كباب، 2 كفتة، 2 شيش طاووق مع أرز وبطاطس وسلطة"}
+            ]},
+            { c: "السندوتشات", i: [
+                {n:"Ranchy Crunchy (L)",p:155}, {n:"Ranchy Crunchy (Baguette)",p:189},
+                {n:"Sweet Chili Crunchy (L)",p:139}, {n:"Sweet Chili Crunchy (Baguette)",p:169},
+                {n:"Cordon Bleu (L)",p:135}, {n:"Cordon Bleu (Baguette)",p:165},
+                {n:"Volcano Chicken Cheese (L)",p:185}, {n:"Volcano Chicken Cheese (Baguette)",p:195},
+                {n:"Shish Tawook (L)",p:138}, {n:"Shish Tawook (Baguette)",p:165},
+                {n:"Grilled Chicken (L)",p:141}, {n:"Grilled Chicken (Baguette)",p:169},
+                {n:"Grilled Kofta (L)",p:144}, {n:"Grilled Kofta (Baguette)",p:169},
+                {n:"Beef Cheese (L)",p:278}, {n:"Beef Cheese (Baguette)",p:311},
+                {n:"Grilled Shrimp Po'boy (L)",p:311}, {n:"Grilled Shrimp Po'boy (Baguette)",p:335},
+                {n:"Fried Shrimp Sweet Chili (L)",p:311}, {n:"Fried Shrimp Sweet Chili (Baguette)",p:335}
+            ]},
+            { c: "البيتزا", i: [
+                {n:"Quattro Formage (M)",p:199,d:"جبنة جودة وتشيدر وموتزاريلا وريكفورد"}, {n:"Quattro Formage (L)",p:235,d:"جبنة جودة وتشيدر وموتزاريلا وريكفورد"},
+                {n:"Chicken Cheese (M)",p:205,d:"دجاج متبل بصوص الباربيكيو، فلفل، بصل، زيتون ومكس جبن"}, {n:"Chicken Cheese (L)",p:249,d:"دجاج متبل بصوص الباربيكيو، فلفل، بصل، زيتون ومكس جبن"},
+                {n:"Ranch Chicken Cheese (M)",p:225,d:"صدور دجاج متبلة بصوص الرانش، مشروم، فلفل ومكس أجبان"}, {n:"Ranch Chicken Cheese (L)",p:264,d:"صدور دجاج متبلة بصوص الرانش، مشروم، فلفل ومكس أجبان"},
+                {n:"Cheese Pepperoni (M)",p:214,d:"قطع البيبروني مع مكس الجبن"}, {n:"Cheese Pepperoni (L)",p:239,d:"قطع البيبروني مع مكس الجبن"},
+                {n:"Smoked Cheese (M)",p:219,d:"بيف مدخن وهوت دوج بالباربيكيو، خضار ومكس جبن"}, {n:"Smoked Cheese (L)",p:254,d:"بيف مدخن وهوت دوج بالباربيكيو، خضار ومكس جبن"},
+                {n:"Supreme Cheese Chicken (M)",p:226,d:"دجاج مع هوت دوج، مشروم، خضار، زيتون ومكس جبن"}, {n:"Supreme Cheese Chicken (L)",p:266,d:"دجاج مع هوت دوج، مشروم، خضار، زيتون ومكس جبن"},
+                {n:"Supreme Cheese Beef (M)",p:228,d:"لحمة مفرومة مع هوت دوج، قطع اللحم، خضار ومكس جبن"}, {n:"Supreme Cheese Beef (L)",p:268,d:"لحمة مفرومة مع هوت دوج، قطع اللحم، خضار ومكس جبن"},
+                {n:"Sea Cheese Ranch (M)",p:350,d:"جمبري وكابوريا، بصل، مشروم، زيتون وثوم"}, {n:"Sea Cheese Ranch (L)",p:425,d:"جمبري وكابوريا، بصل، مشروم، زيتون وثوم"},
+                {n:"Buffalo Chicken Cheese (M)",p:219,d:"دجاج متبل مع بصل، خضار وصوص البافلو الحار"}, {n:"Buffalo Chicken Cheese (L)",p:259,d:"دجاج متبل مع بصل، خضار وصوص البافلو الحار"},
+                {n:"Chicken BBQ Cheese (M)",p:213,d:"دجاج مشوي مع بصل أخضر وطماطم وصوص الباربيكيو"}, {n:"Chicken BBQ Cheese (L)",p:249,d:"دجاج مشوي مع بصل أخضر وطماطم وصوص الباربيكيو"},
+                {n:"Crunchy Cheese Chicken (M)",p:229,d:"دجاج كرانشي مع زيتون، خضار ومكس جبن"}, {n:"Crunchy Cheese Chicken (L)",p:259,d:"دجاج كرانشي مع زيتون، خضار ومكس جبن"},
+                {n:"Crunchy Cheese Buffalo (M)",p:237,d:"دجاج كرانشي بصوص البافلو الحار مع زيتون ومكس جبن"}, {n:"Crunchy Cheese Buffalo (L)",p:269,d:"دجاج كرانشي بصوص البافلو الحار مع زيتون ومكس جبن"},
+                {n:"Smokey Cheese Burger (M)",p:235,d:"بيف برجر مشوي، خضار، بصل، مشروم ومكس جبن"}, {n:"Smokey Cheese Burger (L)",p:274,d:"بيف برجر مشوي، خضار، بصل، مشروم ومكس جبن"}
+            ]},
+            { c: "البرجر والإضافات", i: [
+                {n:"Mac & Cheese Burger (200g)",p:224},
+                {n:"Beef Burger (200g)",p:209},
+                {n:"Steak Burger (280g)",p:295},
+                {n:"Juicy Lucy Burger (240g)",p:239},
+                {n:"Chili Cheese Burger (250g)",p:225},
+                {n:"Extra Mini Texas Fries",p:59},
+                {n:"Extra Beef Burger 200g",p:159},
+                {n:"Extra Juicy Lucy 240g",p:180},
+                {n:"Extra Steak",p:169}
+            ]}
+        ]}
+
     let cart = {}; 
     let total = 0;
 
@@ -181,6 +284,14 @@
         if (rest.r === "Bremer") {
             menuHTML += `<div style="text-align: center; margin-top: -5px; margin-bottom: 20px;">
                 <a href="https://bremer-eg.com/menu" target="_blank" style="display: inline-block; padding: 10px 20px; background: #ffe4e4; border: 2px solid var(--primary); border-radius: 25px; color: var(--primary); text-decoration: none; font-weight: bold; font-size: 0.95rem; box-shadow: 0 2px 5px rgba(0,0,0,0.1); transition: 0.3s;">
+                    🌐 تصفح المنيو التفاعلي للمطعم من هنا
+                </a>
+            </div>`;
+        }
+
+                if (rest.r === "The Chef") {
+            menuHTML += `<div style="text-align: center; margin-top: -5px; margin-bottom: 20px;">
+                <a href="https://thechefeg.com/ar/%d9%85%d9%86%d9%8a%d9%88-%d8%a7%d9%84%d8%b4%d9%8a%d9%81-%d8%ad%d8%b3%d9%86-%d8%a7%d9%84%d8%ae%d9%84%d9%8a%d9%84%d9%8a-%d8%a3%d9%88%d9%86%d9%84%d8%a7%d9%8a%d9%86/" target="_blank" style="display: inline-block; padding: 10px 20px; background: #ffe4e4; border: 2px solid var(--primary); border-radius: 25px; color: var(--primary); text-decoration: none; font-weight: bold; font-size: 0.95rem; box-shadow: 0 2px 5px rgba(0,0,0,0.1); transition: 0.3s;">
                     🌐 تصفح المنيو التفاعلي للمطعم من هنا
                 </a>
             </div>`;
